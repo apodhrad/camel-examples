@@ -24,6 +24,12 @@
                 type="taskmanager.Task" uri="/tasks">
                 <to uri="direct:updateTask"/>
             </put>
+            <delete produces="application/json" uri="/tasks/{id}">
+                <to uri="direct:deleteTask"/>
+            </delete>
+            <delete produces="application/json" uri="/tasks">
+                <to uri="direct:initTaskManager"/>
+            </delete>
         </rest>
         <route id="_route1">
             <from id="_from1" uri="direct:sayHello"/>
@@ -49,6 +55,17 @@
         <route id="_route5">
             <from id="_from5" uri="direct:updateTask"/>
             <bean id="_bean4" method="updateTask" ref="taskManager"/>
+        </route>
+        <route id="_route6">
+            <from id="_from6" uri="direct:deleteTask"/>
+            <setBody id="_setBody2">
+                <simple>${header.id}</simple>
+            </setBody>
+            <bean id="_bean5" method="deleteTask" ref="taskManager"/>
+        </route>
+        <route id="_route7">
+            <from id="_from7" uri="direct:initTaskManager"/>
+            <bean id="_bean6" method="init" ref="taskManager"/>
         </route>
     </camelContext>
 </blueprint>

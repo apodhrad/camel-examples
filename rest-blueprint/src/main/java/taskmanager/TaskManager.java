@@ -9,6 +9,11 @@ public class TaskManager {
 	private int indexSequence;
 
 	public TaskManager() {
+		init();
+	}
+
+	public void init() {
+		indexSequence = 1;
 		tasks = new ArrayList<>();
 
 		Task t1 = new Task();
@@ -20,27 +25,35 @@ public class TaskManager {
 		addTask(t2);
 	}
 
-	public List<Task> getTasks() {
-		return tasks;
+	public TaskManagerResponse getTasks() {
+		return new TaskManagerResponse().success().taskList(tasks);
 	}
 
-	public Task getTask(int id) {
-		return tasks.stream().filter(task -> task.getId() == id).findFirst().orElse(new Task());
+	public TaskManagerResponse getTask(int id) {
+		return new TaskManagerResponse().success().singleTask(findTask(id));
 	}
 
-	public Task addTask(Task task) {
+	public TaskManagerResponse addTask(Task task) {
 		task.setId(indexSequence++);
 		tasks.add(task);
-		return task;
+
+		return new TaskManagerResponse().success().singleTask(task);
 	}
 
-	public Task updateTask(Task task) {
-		Task foundTask = getTask(task.getId());
+	public TaskManagerResponse updateTask(Task task) {
+		Task foundTask = findTask(task.getId());
 		foundTask.setDescription(task.getDescription());
-		return foundTask;
+
+		return new TaskManagerResponse().success().singleTask(foundTask);
 	}
 
-	public void deleteTask(int id) {
-		tasks.remove(getTask(id));
+	public TaskManagerResponse deleteTask(int id) {
+		tasks.remove(findTask(id));
+
+		return new TaskManagerResponse().success();
+	}
+
+	private Task findTask(int id) {
+		return tasks.stream().filter(t -> t.getId() == id).findFirst().orElse(new Task());
 	}
 }
