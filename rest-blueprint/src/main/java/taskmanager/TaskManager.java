@@ -30,7 +30,12 @@ public class TaskManager {
 	}
 
 	public TaskManagerResponse getTask(int id) {
-		return new TaskManagerResponse().success().singleTask(findTask(id));
+		Task task = findTask(id);
+		if (task.exists()) {
+			return new TaskManagerResponse().success().singleTask(task);
+		} else {
+			return new TaskManagerResponse().fail().title("Cannot find any task with id=" + id);
+		}
 	}
 
 	public TaskManagerResponse addTask(Task task) {

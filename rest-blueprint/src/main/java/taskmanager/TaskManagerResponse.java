@@ -33,6 +33,13 @@ public class TaskManagerResponse {
 		return this;
 	}
 
+	public TaskManagerResponse title(String titleString) {
+		Title title = new Title();
+		title.setTitle(titleString);
+		setData(title);
+		return this;
+	}
+
 	public TaskManagerResponse singleTask(Task task) {
 		SingleTask singleTask = new SingleTask();
 		singleTask.setTask(task);
@@ -71,6 +78,20 @@ public class TaskManagerResponse {
 
 		public void setTasks(List<Task> tasks) {
 			this.tasks = tasks;
+		}
+
+	}
+
+	private class Title {
+
+		private String title;
+
+		public String getTitle() {
+			return title;
+		}
+
+		public void setTitle(String title) {
+			this.title = title;
 		}
 
 	}

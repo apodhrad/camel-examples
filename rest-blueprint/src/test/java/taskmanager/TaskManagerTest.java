@@ -3,6 +3,7 @@ package taskmanager;
 import static io.restassured.RestAssured.delete;
 import static io.restassured.RestAssured.get;
 import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.options;
 import static org.hamcrest.Matchers.equalTo;
 
 import java.util.Arrays;
@@ -23,8 +24,20 @@ public class TaskManagerTest extends CamelBlueprintTestSupport {
 
 	@Test
 	public void testGettingInitialTasks() throws Exception {
-		get("/taskmanager/tasks").then().body("data.tasks.description",
+		get("/taskmanager/tasks").then().body("status", equalTo("success")).body("data.tasks.description",
 				equalTo(Arrays.asList("Initial task", "Another task")));
+	}
+
+	@Test
+	public void testGettingOneTask() throws Exception {
+		get("/taskmanager/tasks/2").then().body("status", equalTo("success")).body("data.task.id", equalTo(2))
+				.body("data.task.description", equalTo("Another task"));
+	}
+
+	@Test
+	public void testGettingNonExistingTask() throws Exception {
+		get("/taskmanager/tasks/3").then().body("status", equalTo("fail")).body("data.title",
+				equalTo("Cannot find any task with id=3"));
 	}
 
 	@Test
@@ -47,6 +60,11 @@ public class TaskManagerTest extends CamelBlueprintTestSupport {
 				.put("/taskmanager/tasks").then().body("data.task.description", equalTo("Second task"));
 		get("/taskmanager/tasks").then().body("data.tasks.description",
 				equalTo(Arrays.asList("Initial task", "Second task")));
+	}
+
+	@Test
+	public void testOptions() throws Exception {
+		options("/taskmanager/tasks").then().header("Allow", equalTo("DELETE, POST, GET, OPTIONS, PUT"));
 	}
 
 	@Override
