@@ -17,6 +17,9 @@
             <get produces="application/json" uri="/tasks/{id}">
                 <to uri="direct:getTask"/>
             </get>
+            <head uri="/tasks/{id}">
+                <to uri="direct:getTask"/>
+            </head>
             <post consumes="application/json"
                 produces="application/json" type="taskmanager.Task" uri="/tasks">
                 <to uri="direct:addTask"/>
@@ -25,6 +28,10 @@
                 type="taskmanager.Task" uri="/tasks">
                 <to uri="direct:updateTask"/>
             </put>
+            <patch consumes="application/json"
+                produces="application/json" type="taskmanager.Task" uri="/tasks">
+                <to uri="direct:updateTask"/>
+            </patch>
             <delete produces="application/json" uri="/tasks/{id}">
                 <to uri="direct:deleteTask"/>
             </delete>

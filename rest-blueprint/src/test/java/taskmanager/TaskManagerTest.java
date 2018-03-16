@@ -3,6 +3,7 @@ package taskmanager;
 import static io.restassured.RestAssured.delete;
 import static io.restassured.RestAssured.get;
 import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.head;
 import static io.restassured.RestAssured.options;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -35,6 +36,11 @@ public class TaskManagerTest extends CamelBlueprintTestSupport {
 	}
 
 	@Test
+	public void testHeadingExistingTask() throws Exception {
+		head("/taskmanager/tasks/2").then().header("Content-length", equalTo("74"));
+	}
+
+	@Test
 	public void testGettingNonExistingTask() throws Exception {
 		get("/taskmanager/tasks/3").then().body("status", equalTo("fail")).body("data.title",
 				equalTo("Cannot find any task with id=3"));
@@ -49,13 +55,13 @@ public class TaskManagerTest extends CamelBlueprintTestSupport {
 	}
 
 	@Test
-	public void testDeletingNewTask() throws Exception {
+	public void testDeletingTask() throws Exception {
 		delete("/taskmanager/tasks/1").then().body("data", Matchers.isEmptyOrNullString());
 		get("/taskmanager/tasks").then().body("data.tasks.description", equalTo(Arrays.asList("Another task")));
 	}
 
 	@Test
-	public void testUpdatingNewTask() throws Exception {
+	public void testUpdatingTask() throws Exception {
 		given().contentType(ContentType.JSON).body("{\"id\":\"2\", \"description\": \"Second task\"}")
 				.put("/taskmanager/tasks").then().body("data.task.description", equalTo("Second task"));
 		get("/taskmanager/tasks").then().body("data.tasks.description",
@@ -63,8 +69,21 @@ public class TaskManagerTest extends CamelBlueprintTestSupport {
 	}
 
 	@Test
-	public void testOptions() throws Exception {
-		options("/taskmanager/tasks").then().header("Allow", equalTo("DELETE, POST, GET, OPTIONS, PUT"));
+	public void testPatchingTask() throws Exception {
+		given().contentType(ContentType.JSON).body("{\"id\":\"2\", \"description\": \"Cool task\"}")
+				.patch("/taskmanager/tasks").then().body("data.task.description", equalTo("Cool task"));
+		get("/taskmanager/tasks").then().body("data.tasks.description",
+				equalTo(Arrays.asList("Initial task", "Cool task")));
+	}
+
+	@Test
+	public void testOptionsForAllTasks() throws Exception {
+		options("/taskmanager/tasks").then().header("Allow", equalTo("DELETE, POST, GET, OPTIONS, PUT, PATCH"));
+	}
+
+	@Test
+	public void testOptionsForOneTask() throws Exception {
+		options("/taskmanager/tasks/1").then().header("Allow", equalTo("HEAD, DELETE, GET, OPTIONS"));
 	}
 
 	@Override
