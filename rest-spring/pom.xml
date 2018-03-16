@@ -3,11 +3,11 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.mycompany</groupId>
-  <artifactId>rest-blueprint</artifactId>
+  <artifactId>rest-spring</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <packaging>bundle</packaging>
-  <name>Camel Blueprint Quickstart</name>
-  <description>Empty Camel Blueprint Example</description>
+  <name>Camel Spring Quickstart</name>
+  <description>Empty Camel Spring Example</description>
   <properties>
     <camel.version>2.20.2</camel.version>
     <slf4j.version>1.7.25</slf4j.version>
@@ -24,7 +24,7 @@
     </dependency>
     <dependency>
       <groupId>org.apache.camel</groupId>
-      <artifactId>camel-blueprint</artifactId>
+      <artifactId>camel-spring</artifactId>
       <version>${camel.version}</version>
     </dependency>
     <dependency>
@@ -44,7 +44,7 @@
     </dependency>
     <dependency>
       <groupId>org.apache.camel</groupId>
-      <artifactId>camel-test-blueprint</artifactId>
+      <artifactId>camel-test-spring</artifactId>
       <version>${camel.version}</version>
       <scope>test</scope>
       <exclusions>
@@ -133,8 +133,8 @@
         <extensions>true</extensions>
         <configuration>
           <instructions>
-            <Bundle-SymbolicName>rest-blueprint</Bundle-SymbolicName>
-            <Bundle-Name>Empty Camel Blueprint Example [rest-blueprint]</Bundle-Name>
+            <Bundle-SymbolicName>rest-spring</Bundle-SymbolicName>
+            <Bundle-Name>Empty Camel Spring Example [rest-spring]</Bundle-Name>
           </instructions>
         </configuration>
       </plugin>
@@ -158,7 +158,7 @@
         <artifactId>camel-maven-plugin</artifactId>
         <version>${camel.version}</version>
         <configuration>
-          <useBlueprint>true</useBlueprint>
+          <fileApplicationContextUri>src/main/resources/META-INF/spring/camel-context.xml</fileApplicationContextUri>
         </configuration>
       </plugin>
     </plugins>
