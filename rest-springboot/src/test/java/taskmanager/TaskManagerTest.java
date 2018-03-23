@@ -13,7 +13,6 @@ import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mycompany.Application;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.TestPropertySource;
@@ -41,6 +40,12 @@ public class TaskManagerTest {
 	public void testGettingOneTask() throws Exception {
 		get("/taskmanager/tasks/2").then().body("status", equalTo("success")).body("data.task.id", equalTo(2))
 				.body("data.task.description", equalTo("Another task"));
+	}
+
+	@Test
+	public void testGettingOneTaskViaVerb() throws Exception {
+		get("/taskmanager/task/1").then().body("status", equalTo("success")).body("data.task.id", equalTo(1))
+				.body("data.task.description", equalTo("Initial task"));
 	}
 
 	@Test

@@ -1,4 +1,4 @@
-package org.mycompany;
+package taskmanager;
 
 import org.apache.camel.component.servlet.CamelHttpTransportServlet;
 import org.springframework.boot.SpringApplication;

@@ -37,6 +37,12 @@ public class TaskManagerTest extends CamelSpringTestSupport {
 	}
 
 	@Test
+	public void testGettingOneTaskViaVerb() throws Exception {
+		get("/taskmanager/task/1").then().body("status", equalTo("success")).body("data.task.id", equalTo(1))
+				.body("data.task.description", equalTo("Initial task"));
+	}
+
+	@Test
 	public void testHeadingExistingTask() throws Exception {
 		head("/taskmanager/tasks/2").then().header("Content-length", equalTo("74"));
 	}

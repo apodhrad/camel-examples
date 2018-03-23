@@ -19,6 +19,9 @@
             <get produces="application/json" uri="/tasks/{id}">
                 <to uri="direct:getTask"/>
             </get>
+            <verb method="get" produces="application/json" uri="/task/{id}">
+                <to uri="direct:getTask"/>
+            </verb>
             <head uri="/tasks/{id}">
                 <to uri="direct:getTask"/>
             </head>
