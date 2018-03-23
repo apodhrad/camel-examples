@@ -9,15 +9,22 @@ import static org.hamcrest.Matchers.equalTo;
 
 import java.util.Arrays;
 
-import org.apache.camel.test.spring.CamelSpringTestSupport;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.junit.runner.RunWith;
+import org.mycompany.Application;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import io.restassured.http.ContentType;
 
-public class TaskManagerTest extends CamelSpringTestSupport {
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT, classes = Application.class)
+@TestPropertySource(locations = "classpath:application.properties")
+public class TaskManagerTest {
 
 	@Before
 	public void initTaskManager() {
@@ -85,11 +92,6 @@ public class TaskManagerTest extends CamelSpringTestSupport {
 	@Test
 	public void testOptionsForOneTask() throws Exception {
 		options("/taskmanager/tasks/1").then().header("Allow", equalTo("HEAD, DELETE, GET, OPTIONS"));
-	}
-
-	@Override
-	protected ClassPathXmlApplicationContext createApplicationContext() {
-		return new ClassPathXmlApplicationContext("META-INF/spring/camel-context.xml");
 	}
 
 }
