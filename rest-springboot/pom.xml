@@ -14,7 +14,6 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
   </properties>
-  
   <dependencyManagement>
     <dependencies>
       <!-- Spring Boot BOM -->
