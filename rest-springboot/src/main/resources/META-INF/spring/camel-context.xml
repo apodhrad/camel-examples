@@ -4,7 +4,7 @@
     <bean class="taskmanager.TaskManager" id="taskManager" scope="singleton"/>
     <camelContext id="camelContext-ed0fef08-e4ba-4fc3-a3cb-08ef612cfe06"
         trace="false" xmlns="http://camel.apache.org/schema/spring">
-        <restConfiguration bindingMode="auto" component="servlet"
+        <restConfiguration bindingMode="auto" component="restlet"
             enableCORS="true" port="8080"/>
         <rest path="/greetings">
             <get consumes="text/plain" produces="text/plain" uri="/hello/{name}">
